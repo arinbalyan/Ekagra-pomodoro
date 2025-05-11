@@ -1,0 +1,474 @@
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
+
+/* Base styles */
+:root {
+  --amoled-black: #000000;
+  --gradient-red: #ff3b3b;
+  --gradient-orange: #ff8c00;
+  --gradient-white: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --sidebar-width: 280px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--amoled-black);
+  color: var(--text-primary);
+  font-family: 'Cascadia Mono', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Container and Layout */
+.container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  margin-left: 0;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.sidebar-active {
+  margin-left: var(--sidebar-width);
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 2rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebar.active {
+  transform: translateX(0);
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1001;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.hamburger-menu:hover {
+  transform: scale(1.1);
+}
+
+/* Timer Section */
+.timer-wrapper {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: linear-gradient(
+    45deg,
+    var(--gradient-red),
+    var(--gradient-orange),
+    var(--gradient-white)
+  );
+  background-size: 200% 200%;
+  animation: gradientAnimation 10s ease infinite;
+  border-radius: 1rem;
+  box-shadow: 0 0 20px rgba(255, 59, 59, 0.3);
+}
+
+/* Timer Component Styles */
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timer-section {
+  text-align: center;
+  width: 100%;
+}
+
+.timer-display {
+  font-family: 'Cal Sans', sans-serif;
+  font-size: 6rem;
+  margin: 1rem 0;
+  background: linear-gradient(45deg, var(--gradient-red), var(--gradient-orange));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 20px rgba(255, 59, 59, 0.3);
+}
+
+.timer-info {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timer-info p {
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+}
+
+.timer-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.timer-button {
+  margin: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  background: linear-gradient(45deg, var(--gradient-red), var(--gradient-orange));
+  border: none;
+  border-radius: 0.8rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.timer-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 59, 59, 0.4);
+}
+
+.task-section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.task-section.working {
+  border: 2px solid var(--gradient-red);
+  box-shadow: 0 0 20px rgba(255, 59, 59, 0.2);
+}
+
+/* Task Component Styles */
+.task-container {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.task-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 59, 59, 0.2);
+}
+
+.task-container input,
+.task-container textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  font-family: 'Cascadia Mono', monospace;
+}
+
+.task-container textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.task-description {
+  color: var(--text-secondary);
+  margin: 1rem 0;
+  line-height: 1.5;
+}
+
+.pomodoro-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.pomodoro-control button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.pomodoro-control span {
+  font-family: 'Cal Sans', sans-serif;
+  font-size: 1.2rem;
+}
+
+.task-controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.edit-button,
+.delete-button,
+.done-button,
+.working-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.edit-button {
+  background: linear-gradient(45deg, #4a90e2, #357abd);
+}
+
+.delete-button {
+  background: linear-gradient(45deg, #e24a4a, #bd3535);
+}
+
+.done-button {
+  background: linear-gradient(45deg, #4ae24a, #35bd35);
+}
+
+.working-button {
+  background: linear-gradient(45deg, var(--gradient-red), var(--gradient-orange));
+}
+
+.accent-element {
+  font-family: 'Cal Sans', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(45deg, var(--gradient-red), var(--gradient-orange));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Task Grid */
+.my-masonry-grid {
+  display: flex;
+  margin-left: -20px;
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: 20px;
+  background-clip: padding-box;
+}
+
+/* Task Cards */
+.task-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(255, 59, 59, 0.2);
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(45deg, var(--gradient-red), var(--gradient-orange));
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.5rem;
+  color: white;
+  font-family: 'Cascadia Mono', monospace;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cal Sans', sans-serif;
+  background: linear-gradient(45deg, var(--gradient-red), var(--gradient-orange));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientAnimation 10s ease infinite;
+}
+
+/* Animations */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Analytics Toggle and Auto Mode */
+.analytics-toggle, .auto-mode-toggle {
+  margin-bottom: 1rem;
+}
+
+.auto-mode-toggle label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+/* Custom Checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gradient-red);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background: linear-gradient(45deg, var(--gradient-red), var(--gradient-orange));
+}
+
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Time Info */
+.time-info {
+  margin-top: auto;
+  padding: 1rem;
+  background: rgba(248, 0, 0, 0);
+  font-size: 20px;
+  text-align: center;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 31, 1, 0);
+}
+
+.time-info h3 {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+/* Add Task Button */
+.add-task-button {
+  margin: 2rem auto;
+  display: block;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  background: linear-gradient(45deg, var(--gradient-red), var(--gradient-orange));
+  border: none;
+  border-radius: 0.8rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.add-task-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 59, 59, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  .sidebar {
+    width: 100%;
+  }
+  
+  .timer-wrapper {
+    margin-top: 3rem;
+  }
+  
+  .timer-display {
+    font-size: 4rem;
+  }
+  
+  .timer-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .task-controls {
+    flex-direction: column;
+  }
+  
+  .task-controls button {
+    width: 100%;
+  }
+  
+  .timer-controls {
+    flex-direction: column;
+  }
+  
+  .timer-controls button {
+    width: 100%;
+  }
+}
